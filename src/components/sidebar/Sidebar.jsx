@@ -10,7 +10,7 @@ const Sidebar = ({ activeModule, onModuleChange }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   // Get user level and filter navigation accordingly
-  const userLevel = localStorage.getItem('userLevel') || '3'; // Default to admin level
+  const userLevel = localStorage.getItem('userLevel') || '1'; // Default to admin level
   const filteredNavigation = getFilteredNavigation(userLevel);
 
   // Auto-expand parent when a sub-item is active

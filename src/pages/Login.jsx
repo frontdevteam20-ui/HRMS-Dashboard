@@ -86,15 +86,21 @@ const Login = ({ onLogin }) => {
 
         if (response.user_data.level === "1") {
 
-          // Level 1 = Employee → redirect to employee profile page
+          // Level 1 = Admin → redirect to admin dashboard
+
+          navigate('/admin-dashboard');
+
+        } else if (response.user_data.level === "2") {
+
+          // Level 2 = HR → redirect to HR Dashboard
+
+          navigate('/employee-directory');
+
+        } else if (response.user_data.level === "3") {
+
+          // Level 3 = Employee → redirect to employee profile page
 
           navigate('/employee-profile');
-
-        } else if (response.user_data.level === "2" || response.user_data.level === "3") {
-
-          // Level 2 & 3 = Admin/Manager → redirect to dashboard
-
-          navigate('/dashboard');
 
         } else {
 

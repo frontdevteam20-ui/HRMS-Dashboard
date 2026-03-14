@@ -5,7 +5,7 @@ import EmployeeList from './EmployeeList';
 import EmployeeGrid from './EmployeeGrid';
 import EmployeeStats from './EmployeeStats';
 import EmployeeFilters from './EmployeeFilters';
-import { departments, statuses } from "./employeeData";
+import { employees, departments, statuses } from "./employeeData";
 
 export const EmployeeDirectory = () => {
   const navigate = useNavigate();
@@ -14,62 +14,30 @@ export const EmployeeDirectory = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [sortBy, setSortBy] = useState('name');
-  const [employees, setEmployees] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [employeesData, setEmployeesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch employees from API
+  // Use mock data instead of API call
   useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        console.log('Fetching employees from API...');
-      const response = await fetch('/api/employees', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        console.log('API Response:', result);
-        
-        if (result.success && Array.isArray(result.data)) {
-          console.log(`Successfully fetched ${result.data.length} employees`);
-          setEmployees(result.data.map(emp => ({
-            ...emp,
-            status: 'Active', // Add status since it's required by the UI
-            employeeId: `EMP${String(emp.id).padStart(3, '0')}`, // Format employee ID
-            joiningDate: emp.joinDate // Map joinDate to joiningDate
-          })));
-        } else {
-          throw new Error('Invalid data format received from server');
-        }
-      } 
-     catch (err) {
-  console.error('Error details:', {
-    message: err.message,
-    name: err.name,
-    stack: err.stack
-  });
-  setError(`Failed to load employee data: ${err.message}`);
-}
+    try {
+      setIsLoading(true);
+      setError(null);
+      console.log('Loading mock employee data...');
       
-      finally {
+      // Simulate loading delay
+      setTimeout(() => {
+        setEmployeesData(employees);
         setIsLoading(false);
-      }
-    };
-
-    fetchEmployees();
+      }, 500);
+    } catch (error) {
+      console.error('Error loading employee data:', error);
+      setError('Failed to load employee data');
+      setIsLoading(false);
+    }
   }, []);
 
-  // Rest of your component remains the same...
-  const filteredEmployees = employees.filter(employee => {
+  const filteredEmployees = employeesData.filter(employee => {
     const matchesSearch = employee.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          employee.designation?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          employee.employeeId?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -91,6 +59,7 @@ export const EmployeeDirectory = () => {
         return 0;
     }
   });
+
   const handleQuickAction = (action, employee) => {
     switch (action) {
       case 'view':
@@ -131,7 +100,7 @@ export const EmployeeDirectory = () => {
         </div>
         {/* Stats Cards */}
       <EmployeeStats 
-        employees={employees} 
+        employees={employeesData} 
         departments={departments} 
       />
       {/* Filters and Search */}
@@ -149,19 +118,29 @@ export const EmployeeDirectory = () => {
       departments={departments}
       statuses={statuses}
     />
-      {/* Employee Grid/List */}
-      <div className="neu-card p-4 sm:p-6 rounded-3xl">
-        <div className="mb-4">
-          <h3 className="text-lg sm:text-xl font-bold text-[#333333]">
-            {sortedEmployees.length} Employee{sortedEmployees.length !== 1 ? 's' : ''} Found
-          </h3>
-        </div>
-       {viewMode === 'grid' ? (
-      <EmployeeGrid employees={sortedEmployees} onAction={handleQuickAction} />
-    ) : (
-      <EmployeeList employees={sortedEmployees} onAction={handleQuickAction} />
-    )}
+    
+    {/* Employee Display */}
+    {isLoading ? (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
+    ) : error ? (
+      <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        {error}
+      </div>
+    ) : viewMode === 'grid' ? (
+      <EmployeeGrid 
+        employees={sortedEmployees} 
+        onQuickAction={handleQuickAction} 
+      />
+    ) : (
+      <EmployeeList 
+        employees={sortedEmployees} 
+        onQuickAction={handleQuickAction} 
+      />
+    )}
     </div>
   );
 };
+
+export default EmployeeDirectory;

@@ -18,6 +18,7 @@ import EngagementChart from '../components/dashboard/charts/EngagementChart';
 import Meetings from '../components/dashboard/Meetings';
 import RecentActivities from '../components/dashboard/RecentActivities';
 import QuickActions from '../components/dashboard/QuickActions';
+import RoleTest from '../components/RoleTest';
 
 // Data
 const attritionData = [
@@ -149,6 +150,9 @@ const Dashboard = () => {
       </div>
 
       <QuickActions actions={quickActions} />
+      
+      {/* Role Test Component - Shows current user level and navigation access */}
+      <RoleTest />
     </div>
   );
 };

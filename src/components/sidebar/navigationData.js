@@ -27,42 +27,48 @@ export const getFilteredNavigation = (userLevel) => {
   const baseNavigation = [...navigationItems];
   
   if (userLevel === '1') {
-    // For Level 1 (Employee), show all Employee Management except HR Dashboard
-    // Keep all other sections the same
+    // For Level 1 (Admin), show ALL navigation items except Employee Profile
     return baseNavigation.map(item => {
       if (item.id === 'employees') {
         return {
           ...item,
-          subItems: item.subItems.filter(subItem => subItem.id !== 'employee-directory')
+          subItems: item.subItems.filter(subItem => 
+            subItem.id !== 'employee-profile' // Hide Employee Profile from Admin
+          )
         };
       }
       return item; // Keep all other sections unchanged
     });
   } else if (userLevel === '2') {
-    // For Level 2 (HR), show all Employee Management except Admin Dashboard
+    // For Level 2 (HR), show only HR Dashboard, Onboarding, Offboarding (hide Employee Profile)
     return baseNavigation.map(item => {
       if (item.id === 'employees') {
         return {
           ...item,
-          subItems: item.subItems.filter(subItem => subItem.id !== 'neumorphic-dashboard')
+          subItems: item.subItems.filter(subItem => 
+            subItem.id === 'employee-directory' || 
+            subItem.id === 'onboarding-dashboard' || 
+            subItem.id === 'offboarding-dashboard'
+            // Hide Employee Profile from HR
+          )
         };
       }
       return item; // Keep all other sections unchanged
     });
-  }else if (userLevel === '3') {
-    // For Level 2 (HR), show all Employee Management except Admin Dashboard
+  } else if (userLevel === '3') {
+    // For Level 3 (Employee), show only Employee Profile
     return baseNavigation.map(item => {
       if (item.id === 'employees') {
         return {
           ...item,
-          subItems: item.subItems.filter(subItem => subItem.id !== 'neumorphic-dashboard')
+          subItems: item.subItems.filter(subItem => subItem.id === 'employee-profile')
         };
       }
       return item; // Keep all other sections unchanged
     });
   }
   
-  // For Level 3+ (Manager), show all navigation
+  // Default fallback
   return baseNavigation;
 };
 

@@ -146,10 +146,7 @@ const hasAccessLevel = (requiredLevel, userLevel) => {
 const createProtectedRoute = (path, element, requiredLevel = 3) => {
   const userLevel = localStorage.getItem('userLevel');
   
-  if (!hasAccessLevel(requiredLevel, userLevel)) {
-    return null; // Don't render route for insufficient level
-  }
-  
+  // Allow access to all authenticated users - no level restrictions
   return element;
 };
 
@@ -316,65 +313,65 @@ function App() {
         }>
 
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={createProtectedRoute("/dashboard", <AdminDashboard />, 2)} />
-            <Route path="/admin-dashboard" element={createProtectedRoute("/admin-dashboard", <AdminDashboard />, 2)} />
-            <Route path="/employees" element={createProtectedRoute("/employees", <Employees />, 2)} />
-            <Route path="/attendance" element={createProtectedRoute("/attendance", <Attendance />, 2)} />
-            <Route path="/leave" element={createProtectedRoute("/leave", <Leave />, 2)} />
-            <Route path="/payroll" element={createProtectedRoute("/payroll", <Payroll />, 2)} />
+            <Route path="/dashboard" element={createProtectedRoute("/dashboard", <AdminDashboard />)} />
+            <Route path="/admin-dashboard" element={createProtectedRoute("/admin-dashboard", <AdminDashboard />)} />
+            <Route path="/employees" element={createProtectedRoute("/employees", <Employees />)} />
+            <Route path="/attendance" element={createProtectedRoute("/attendance", <Attendance />)} />
+            <Route path="/leave" element={createProtectedRoute("/leave", <Leave />)} />
+            <Route path="/payroll" element={createProtectedRoute("/payroll", <Payroll />)} />
             <Route path="/view-analytics" element={createProtectedRoute("/view-analytics", 
               <MeetingsLayout>
                 <ViewAnalytics />
-              </MeetingsLayout>, 2)} />
+              </MeetingsLayout>)} />
             <Route path="/shift-management" element={createProtectedRoute("/shift-management",
-              <ShiftManagement navigate={navigate} />, 2)} />
+              <ShiftManagement navigate={navigate} />)} />
             <Route path="/shift-details" element={createProtectedRoute("/shift-details",
-              <AdminDashboard />, 2)} />
+              <AdminDashboard />)} />
             
             <Route path="/overtime-hours" element={createProtectedRoute("/overtime-hours",
-              <OvertimeHours />, 2)} />
+              <OvertimeHours />)} />
             <Route path="/holiday-management" element={createProtectedRoute("/holiday-management",
-              <HolidayManagement onNavigate={navigate} />, 2)} />
+              <HolidayManagement onNavigate={navigate} />)} />
             <Route path="/punch-records" element={createProtectedRoute("/punch-records",
-              <PunchRecords onNavigate={navigate} />, 2)} />
+              <PunchRecords onNavigate={navigate} />)} />
             <Route path="/policy-rules" element={createProtectedRoute("/policy-rules",
               <MeetingsLayout>
                 <PolicyRules navigate={navigate} />
-              </MeetingsLayout>, 2)} />
+              </MeetingsLayout>)} />
             <Route path="/leave-tracking" element={createProtectedRoute("/leave-tracking",
-              <LeaveTracking onNavigate={navigate} />, 2)} />
+              <LeaveTracking onNavigate={navigate} />)} />
             <Route path="/employee-attendance-profile" element={createProtectedRoute("/employee-attendance-profile",
-              <EmployeeAttendanceProfile />, 2)} />
+              <EmployeeAttendanceProfile />)} />
             <Route path="/attendance-calendar" element={createProtectedRoute("/attendance-calendar",
-              <AttendanceCalendar onNavigate={navigate}/>, 2)} />
+              <AttendanceCalendar onNavigate={navigate} />)} />
             <Route path="/leave" element={createProtectedRoute("/leave",
-              <Leave />, 2)} /> 
-            <Route path="/payroll" element={createProtectedRoute("/payroll", <Payroll />, 2)} />
+              <Leave />)} /> 
+            <Route path="/payroll" element={createProtectedRoute("/payroll", <Payroll />)} />
             <Route path="/edit-profile" element={createProtectedRoute("/edit-profile",
               <MeetingsLayout>
                 <AddEmployee />
-              </MeetingsLayout>, 2)} />
+              </MeetingsLayout>)} />
             <Route path="/employee-details" element={createProtectedRoute("/employee-details",
               <MeetingsLayout>
                 <EditProfile />
-              </MeetingsLayout>, 2)} />
+              </MeetingsLayout>)} />
             <Route path="/employee-directory" element={createProtectedRoute("/employee-directory",
               <MeetingsLayout>
                 <EmployeeDirectory />
-              </MeetingsLayout>, 2)} />
+              </MeetingsLayout>)} />
             <Route path="/edit-employee" element={createProtectedRoute("/edit-employee",
               <MeetingsLayout>
                 <AddEmployee mode="edit" />
-              </MeetingsLayout>, 2)} />
+              </MeetingsLayout>)} />
             <Route path="/punch-in-out" element={<PunchInOut />} />
-            <Route path="/payroll-process" element={createProtectedRoute("/payroll-process", <PayrollProcess />, 2)} />
+            <Route path="/payroll-process" element={createProtectedRoute("/payroll-process", <PayrollProcess />)} />
             <Route path="/employee-profile" element={<EmployeeProfile />} />
-            <Route path="/onboarding-checklist" element={createProtectedRoute("/onboarding-checklist", <OnboardingChecklist />, 2)} />
+            <Route path="/onboarding-checklist" element={createProtectedRoute("/onboarding-checklist", <OnboardingChecklist />)} />
             <Route path="/onboarding-dashboard" element={createProtectedRoute("/onboarding-dashboard",
               <MeetingsLayout>
                 <OnboardingDashboard />
-              </MeetingsLayout>, 2)} />
-            <Route path="/add-employee" element={createProtectedRoute("/add-employee", <AddEmployee />, 2)} />
+              </MeetingsLayout>)} />
+            <Route path="/add-employee" element={createProtectedRoute("/add-employee", <AddEmployee />)} />
             <Route path="/edit-meeting" element={<EditMeeting />} />
             <Route
               path="/meeting-details"
