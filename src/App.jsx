@@ -14,6 +14,7 @@ import MeetingDetails from './components/dashboard/meetings/MeetingDetails';
 import EditMeeting from './components/dashboard/meetings/EditMeeting';
 import MeetingCalendar from './components/dashboard/meetings/MeetingCalendar';
 import Header from './components/header/Header';
+import Attachments from './components/meetings/Attachments';
 import ShiftManagement from './components/attendence/ShiftManagement';
 import { OvertimeHours } from './components/attendence/OvertimeHours';
 import { PunchRecords } from './components/attendence/PunchRecords';
@@ -26,6 +27,8 @@ import { EmployeeDirectory } from './components/employees/EmployeeDirectory';
 import { EditProfile } from './components/employees/EditProfile';
 import { AddEmployee } from './components/employees/AddEmployee';
 import { EmployeeProfile } from './components/employees/EmployeeProfile';
+import EmployeeLeaves from './components/employees/EmployeeLeaves';
+import Leaves from './components/employees/Leaves';
 import { OnboardingChecklist } from './components/employees/OnboardingChecklist';
 import { OnboardingDashboard } from './components/employees/OnboardingDashboard';
 import { OnboardingNew } from './components/employees/OnboardingNew';
@@ -359,6 +362,14 @@ function App() {
               <MeetingsLayout>
                 <EmployeeDirectory />
               </MeetingsLayout>)} />
+            <Route path="/employee-leaves" element={createProtectedRoute("/employee-leaves",
+              <MeetingsLayout>
+                <EmployeeLeaves />
+              </MeetingsLayout>)} />
+            <Route path="/leaves" element={createProtectedRoute("/leaves",
+              <MeetingsLayout>
+                <Leaves />
+              </MeetingsLayout>)} />
             <Route path="/edit-employee" element={createProtectedRoute("/edit-employee",
               <MeetingsLayout>
                 <AddEmployee mode="edit" />
@@ -432,7 +443,11 @@ function App() {
                 <Route path="/new-payroll" element={<NewPayroll/>} />
                 <Route path="/new-claim" element={<NewClaim/>} />
                 {/* Meeting Routes */}
-                <Route path="/meetings-attachments" element={<MeetingAttachments />} />
+                <Route path="/meetings-attachments" element={
+                  <MeetingsLayout>
+                    <Attachments />
+                  </MeetingsLayout>
+                } />
                 <Route path="/meeting-reports" element={
                   <MeetingsLayout>
                     <MeetingReports onNavigate={(path, state) => {

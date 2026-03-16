@@ -27,13 +27,14 @@ export const getFilteredNavigation = (userLevel) => {
   const baseNavigation = [...navigationItems];
   
   if (userLevel === '1') {
-    // For Level 1 (Admin), show ALL navigation items except Employee Profile
+    // For Level 1 (Admin), show ALL navigation items except Employee Profile and HR Dashboard
     return baseNavigation.map(item => {
       if (item.id === 'employees') {
         return {
           ...item,
           subItems: item.subItems.filter(subItem => 
-            subItem.id !== 'employee-profile' // Hide Employee Profile from Admin
+            subItem.id !== 'employee-profile' && // Hide Employee Profile from Admin
+            subItem.id !== 'employee-directory' // Hide HR Dashboard from Admin
           )
         };
       }
@@ -56,16 +57,47 @@ export const getFilteredNavigation = (userLevel) => {
       return item; // Keep all other sections unchanged
     });
   } else if (userLevel === '3') {
-    // For Level 3 (Employee), show only Employee Profile
+    // For Level 3 (Employee), show only Employee-specific items
+    console.log('Filtering navigation for employee (Level 3)'); // Debug log
     return baseNavigation.map(item => {
       if (item.id === 'employees') {
+        const filteredSubItems = item.subItems.filter(subItem => 
+          subItem.id === 'employee-profile' // My Profile only
+        );
+        console.log('Employee Management filtered subItems:', filteredSubItems); // Debug log
         return {
           ...item,
-          subItems: item.subItems.filter(subItem => subItem.id === 'employee-profile')
+          subItems: filteredSubItems
+        };
+      } else if (item.id === 'attendance') {
+        const filteredSubItems = item.subItems.filter(subItem => 
+          subItem.id === 'holiday-management' || // Holiday Calendar
+          subItem.id === 'leaves' || // Leaves (new component)
+          subItem.id === 'onboarding-dashboard' // Attendence
+        );
+        console.log('Attendance filtered subItems:', filteredSubItems); // Debug log
+        return {
+          ...item,
+          subItems: filteredSubItems
+        };
+      } else if (item.id === 'recruitment') {
+        // Hide entire Recruitment section for employees
+        return null;
+      } else if (item.id === 'meetings') {
+        // Show specific Meetings items for employees
+        const filteredSubItems = item.subItems.filter(subItem => 
+          subItem.id === 'all-meetings' || // All Meetings
+          subItem.id === 'new-meeting' || // New Meeting
+          subItem.id === 'meeting-calendar' || // Meeting Calendar
+          subItem.id === 'attachments' // Attachments
+        );
+        return {
+          ...item,
+          subItems: filteredSubItems
         };
       }
       return item; // Keep all other sections unchanged
-    });
+    }).filter(item => item !== null); // Remove null items (like recruitment)
   }
   
   // Default fallback
@@ -84,10 +116,10 @@ export const navigationItems = [
     label: "Employee Management",
     icon: Users,
      subItems: [
-      { id: "employee-directory", label: "HR Dashboard", icon: Users, path: '/employee-directory' },
-      { id: "employee-profile", label: "Employee Profile", icon: User , path: '/employee-profile' },
-      { id: "onboarding-dashboard", label: "Onboarding", icon: UserPlus, path: '/onboarding-dashboard' },
-      { id: "offboarding-dashboard", label: "Offboarding", icon: UserX, path: '/offboarding-dashboard' },
+      { id: "employee-directory", label: "Home", icon: Users, path: '/employee-directory' },
+      { id: "employee-profile", label: "My Profile", icon: User , path: '/employee-profile' },
+      { id: "onboarding-dashboard", label: "Attendence", icon: UserPlus, path: '/onboarding-dashboard' },
+      { id: "employee-leaves", label: "Leave & Absence Tracking", icon: Calendar, path: '/employee-leaves' },
       { id: "neumorphic-dashboard", label: "Admin Dashboard", icon: Settings, path: '/admin-dashboard' },
     ],
   },
@@ -103,6 +135,8 @@ export const navigationItems = [
       { id: "leave-tracking", label: "Leave & Absence Tracking", icon: Calendar, path: '/leave-tracking' },
       { id: "overtime-hours", label: "Overtime & Working Hours", icon: ClockIcon, path: '/overtime-hours' },
       { id: "holiday-management", label: "Holiday Management", icon: CalendarDays, path: '/holiday-management' },
+      { id: "leaves", label: "Leaves", icon: UserX, path: '/leaves' },
+      { id: "onboarding-dashboard", label: "Attendence", icon: UserPlus, path: '/onboarding-dashboard' },
       { id: "policy-rules", label: "Policy & Rules Setup", icon: Settings, path: '/policy-rules' },
       { id: "employee-attendance-profile", label: "Employee Profile", icon: Users, path: '/employee-attendance-profile' },
       { id: "punch-in-out", label: "Punch In/Out", icon: Clock, path: '/punch-in-out' },

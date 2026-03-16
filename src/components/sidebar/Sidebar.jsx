@@ -11,6 +11,7 @@ const Sidebar = ({ activeModule, onModuleChange }) => {
 
   // Get user level and filter navigation accordingly
   const userLevel = localStorage.getItem('userLevel') || '1'; // Default to admin level
+  console.log('Current userLevel:', userLevel); // Debug log
   const filteredNavigation = getFilteredNavigation(userLevel);
 
   // Auto-expand parent when a sub-item is active
