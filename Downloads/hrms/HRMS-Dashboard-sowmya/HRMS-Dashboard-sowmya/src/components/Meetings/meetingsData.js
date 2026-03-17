@@ -1,0 +1,72 @@
+export const meetingsData = [
+  {
+    id: '1',
+    title: 'Weekly Team Standup',
+    date: '2024-01-15',
+    time: '09:00 AM',
+    duration: '30 min',
+    participants: ['Lion', 'Jane Smith', 'Mike Johnson', 'Sarah Wilson'],
+    department: 'Engineering',
+    location: 'Conference Room A',
+    status: 'completed',
+    organizer: 'Lion',
+    attachments: 2,
+    hasMinutes: true
+  },
+  {
+    id: '2',
+    title: 'Product Planning Q1 2024',
+    date: '2024-01-16',
+    time: '02:00 PM',
+    duration: '120 min',
+    participants: ['Jane Smith', 'Alice Johnson', 'Bob Brown', 'Carol Davis', 'David Miller'],
+    department: 'Product',
+    location: 'Board Room',
+    status: 'scheduled',
+    organizer: 'Jane Smith',
+    attachments: 5,
+    hasMinutes: false
+  },
+  {
+    id: '3',
+    title: 'HR Policy Review',
+    date: '2024-01-14',
+    time: '11:00 AM',
+    duration: '90 min',
+    participants: ['Sarah Wilson', 'Mike Johnson', 'Emma Garcia'],
+    department: 'HR',
+    location: 'Virtual Meeting',
+    status: 'completed',
+    organizer: 'Sarah Wilson',
+    attachments: 3,
+    hasMinutes: true
+  },
+  {
+    id: '4',
+    title: 'Marketing Campaign Review',
+    date: '2024-01-17',
+    time: '03:30 PM',
+    duration: '60 min',
+    participants: ['Carol Davis', 'David Miller', 'Emma Garcia', 'Frank Wilson'],
+    department: 'Marketing',
+    location: 'Meeting Room B',
+    status: 'scheduled',
+    organizer: 'Carol Davis',
+    attachments: 1,
+    hasMinutes: false
+  },
+  {
+    id: '5',
+    title: 'Client Project Kickoff',
+    date: '2024-01-13',
+    time: '10:00 AM',
+    duration: '45 min',
+    participants: ['Lion', 'Jane Smith', 'Alice Johnson'],
+    department: 'Engineering',
+    location: 'Conference Room C',
+    status: 'cancelled',
+    organizer: 'Lion',
+    attachments: 0,
+    hasMinutes: false
+  }
+];
