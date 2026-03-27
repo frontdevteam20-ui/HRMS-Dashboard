@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Edit3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import EditEmployeeModal from './EditEmployeeModal';
 
 const AttendanceTable = ({ 
@@ -10,6 +11,7 @@ const AttendanceTable = ({
   getAttendanceColor,
   onEditEmployee 
 }) => {
+  const navigate = useNavigate();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,8 +27,8 @@ const AttendanceTable = ({
   ];
 
   const handleEditClick = (employee) => {
-    setSelectedEmployee(employee);
-    setIsModalOpen(true);
+    // Navigate to PayrollEditScreen with employee data
+    navigate('/payroll-edit', { state: { employee } });
   };
 
   const handleSaveEmployee = (updatedEmployee) => {

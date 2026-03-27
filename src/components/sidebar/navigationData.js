@@ -19,7 +19,8 @@ import {
   GitBranch,
   CheckCircle,
   UserX,
-  User
+  User,
+  Shield
 } from "lucide-react";
 
 // Helper function to get filtered navigation based on user level
@@ -28,96 +29,21 @@ export const getFilteredNavigation = (userLevel) => {
   
   if (userLevel === '1') {
     // For Level 1 (Admin), show specific items only
-    return baseNavigation.map(item => {
-      if (item.id === 'employees') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'neumorphic-dashboard' // Home (Admin Dashboard)
-          )
-        };
-      } else if (item.id === 'attendance') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'attendance-dashboard' || // Attendance Dashboard
-            subItem.id === 'attendance-calendar' || // Attendance Calendar
-            subItem.id === 'punch-records' || // Punch In/Out Records
-            subItem.id === 'shift-management' || // Shift Management
-            subItem.id === 'leave-tracking' || // Leave & Absence Tracking
-            subItem.id === 'holiday-management' // Holiday Management
-          )
-        };
-      } else if (item.id === 'recruitment') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'job-openings' || // Job Openings
-            subItem.id === 'applicants' || // Applicants
-            subItem.id === 'interviews' || // Interviews
-            subItem.id === 'interview-calendar' // Interview Calendar
-          )
-        };
-      } else if (item.id === 'meetings') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'all-meetings' || // All Meetings
-            subItem.id === 'new-meeting' || // New Meeting
-            subItem.id === 'meeting-calendar' || // Meeting Calendar
-            subItem.id === 'meeting-attachments' // Attachments
-          )
-        };
-      } else if (item.id === 'vslm') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'all-projects' || // All Projects
-            subItem.id === 'uploaded-images' || // Uploaded Images
-            subItem.id === 'project-timeline' || // Project Timeline
-            subItem.id === 'site-visit-log' || // Site Visit Log
-            subItem.id === 'vslm-analytics' // Analytics
-          )
-        };
-      } else if (item.id === 'tasks') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'task-dashboard' || // Task Dashboard
-            subItem.id === 'task-projects' || // Projects (Development)
-            subItem.id === 'task-kanban' || // Task Status (Kanban)
-            subItem.id === 'add-new-task' || // Add New Task
-            subItem.id === 'task-details' || // Task Details
-            subItem.id === 'subtasks-management' || // Subtasks
-            subItem.id === 'task-assignment' || // Team Assignment
-            subItem.id === 'task-timeline' // Timeline (Gantt)
-          )
-        };
-      } else if (item.id === 'payroll') {
-        return {
-          ...item,
-          subItems: item.subItems.filter(subItem => 
-            subItem.id === 'payroll-overview' || // Attendance Overview
-            subItem.id === 'salary-overview' || // Salary Overview
-            subItem.id === 'payroll-history' || // Payroll History
-            subItem.id === 'new-payroll' || // New Payroll
-            subItem.id === 'payroll-details' || // Payroll Details
-            subItem.id === 'payroll-management' || // Payroll Management
-            subItem.id === 'payroll-process' || // Payroll Process
-            subItem.id === 'payroll-assignment' || // Team Assignment
-            subItem.id === 'payroll-timeline' || // Timeline (Gantt)
-            subItem.id === 'payroll-analytics' // Analytics & Reports
-          )
-        };
-      } else {
-        // Hide all other sections for Admin
-        return null;
+    return baseNavigation.filter(item => {
+      // Show Admin Dashboard, User Management, Positions, and Access Summary as standalone items
+      if (item.id === 'admin-dashboard' || item.id === 'user-management' || item.id === 'positions' || item.id === 'access-summary') {
+        return true;
       }
+      // Hide all other sections for Admin
+      return null;
     }).filter(item => item !== null); // Remove null items
   } else if (userLevel === '2') {
     // For Level 2 (HR), show only HR-specific items
     return baseNavigation.map(item => {
-      if (item.id === 'employees') {
+      // Hide admin sections for HR users
+      if (item.id === 'admin-dashboard' || item.id === 'user-management' || item.id === 'positions' || item.id === 'access-summary') {
+        return null;
+      } else if (item.id === 'employees') {
         return {
           ...item,
           subItems: item.subItems.filter(subItem => 
@@ -170,7 +96,10 @@ export const getFilteredNavigation = (userLevel) => {
     // For Level 3 (Employee), show only Employee-specific items
     console.log('Filtering navigation for employee (Level 3)'); // Debug log
     return baseNavigation.map(item => {
-      if (item.id === 'employees') {
+      // Hide admin sections for Employee users
+      if (item.id === 'admin-dashboard' || item.id === 'user-management' || item.id === 'positions' || item.id === 'access-summary') {
+        return null;
+      } else if (item.id === 'employees') {
         const filteredSubItems = item.subItems.filter(subItem => 
           subItem.id === 'employee-profile' // My Profile only
         );
@@ -243,12 +172,39 @@ export const getFilteredNavigation = (userLevel) => {
 };
 
 export const navigationItems = [
-  // {
-  //   id: "dashboard",
-  //   label: "Dashboard",
-  //   icon: LayoutDashboard,
-  //   path: '/dashboard'
-  // },
+  // Admin Dashboard - Separate section
+  {
+    id: "admin-dashboard",
+    label: "Admin Dashboard",
+    icon: LayoutDashboard,
+    path: '/admin-dashboard'
+  },
+  
+  // User Management - Separate section  
+  {
+    id: "user-management",
+    label: "User Management", 
+    icon: Users,
+    path: '/user-management'
+  },
+
+  // Positions - Separate section  
+  {
+    id: "positions",
+    label: "Positions", 
+    icon: Briefcase,
+    path: '/positions'
+  },
+
+  // Access Summary - Separate section  
+  {
+    id: "access-summary",
+    label: "Access Summary", 
+    icon: Shield,
+    path: '/access-summary'
+  },
+  
+  // Employee Management - Updated without admin items
   {
     id: "employees",
     label: "Employee Management",
@@ -259,7 +215,6 @@ export const navigationItems = [
       { id: "onboarding-dashboard", label: "Onboarding", icon: UserPlus, path: '/onboarding-dashboard' },
       { id: "offboarding-dashboard", label: "Offboarding", icon: UserX, path: '/offboarding-dashboard' },
       { id: "employee-leaves", label: "Leave & Absence Tracking", icon: Calendar, path: '/employee-leaves' },
-      { id: "neumorphic-dashboard", label: "Admin Dashboard", icon: Settings, path: '/admin-dashboard' },
     ],
   },
   {

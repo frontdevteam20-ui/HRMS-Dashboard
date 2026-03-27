@@ -58,7 +58,10 @@ import Footer from './components/footer/Footer';
 import { MeetingAttachments } from './components/dashboard/meetings/MeetingAttachments';
 import { MeetingReports } from './components/dashboard/meetings/MeetingReports';
 import { PunchInOut } from './components/attendence/PunchInOut';
-import { NeumorphicDashboard as AdminDashboard } from './components/dashboard/AdminDashboard';
+import AdminDashboard from './components/Admin/AdminDashboard';
+import { UserManagement, Positions, AccessSummary } from './components/Admin';
+import CreatePosition from './components/Admin/CreatePosition';
+import AddUser from './components/Admin/AddUser';
 import { AddNewEmployee } from './components/employees/AddNewEmployee';
 import { ViewAnalytics } from './components/attendence/ViewAnalytics';
 import { NewJobOpening } from './components/recruitment/NewJobOpening';
@@ -81,6 +84,7 @@ import NewPayroll from './components/PayrollClaim/NewPayroll.jsx';
 import NewClaim from './components/PayrollClaim/NewClaim.jsx';
 import PayrollProcess from './components/PayrollProcess/payrollprocess.jsx';
 import NewPayrollProcess from './components/PayrollProcess/NewPayrollProcess.jsx';
+import PayrollEditScreen from './components/Payroll/PayrollEditscreen.jsx';
 
 function MeetingsLayout({ children }) {
   const navigate = useNavigate();
@@ -318,6 +322,11 @@ function App() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={createProtectedRoute("/dashboard", <AdminDashboard />)} />
             <Route path="/admin-dashboard" element={createProtectedRoute("/admin-dashboard", <AdminDashboard />)} />
+            <Route path="/user-management" element={createProtectedRoute("/user-management", <UserManagement />)} />
+            <Route path="/user-management/add" element={createProtectedRoute("/user-management/add", <AddUser />)} />
+            <Route path="/positions" element={createProtectedRoute("/positions", <Positions />)} />
+            <Route path="/positions/create" element={createProtectedRoute("/positions/create", <CreatePosition />)} />
+            <Route path="/access-summary" element={createProtectedRoute("/access-summary", <AccessSummary />)} />
             <Route path="/employees" element={createProtectedRoute("/employees", <Employees />)} />
             <Route path="/attendance" element={createProtectedRoute("/attendance", <Attendance />)} />
             <Route path="/leave" element={createProtectedRoute("/leave", <Leave />)} />
@@ -442,6 +451,7 @@ function App() {
                 <Route path="/payroll-history" element={<PayrollHistory/>} />
                 <Route path="/new-payroll" element={<NewPayroll/>} />
                 <Route path="/new-claim" element={<NewClaim/>} />
+                <Route path="/payroll-edit" element={<PayrollEditScreen />} />
                 {/* Meeting Routes */}
                 <Route path="/meetings-attachments" element={
                   <MeetingsLayout>
